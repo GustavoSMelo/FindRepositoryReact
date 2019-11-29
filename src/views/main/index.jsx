@@ -40,23 +40,28 @@ class Home extends React.Component {
 
     handleSubmit = async event => {
         event.preventDefault();
-
         this.setState({ loading: true });
 
-        const response = await api.get(`repos/${this.state.newRepo}`);
-        const data = {
-            name: response.data.full_name,
-            url: response.data.url,
-            avatar: response.data.owner.avatar_url,
-        };
+        try {
+            const response = await api.get(`repos/${this.state.newRepo}`);
 
-        console.log(response);
+            const data = {
+                name: response.data.full_name,
+                url: response.data.url,
+                avatar: response.data.owner.avatar_url,
+            };
 
-        await this.setState({
-            repositories: this.state.repositories.concat(data),
-            newRepo: '',
-            loading: false,
-        });
+            console.log(response);
+
+            await this.setState({
+                repositories: this.state.repositories.concat(data),
+                newRepo: '',
+                loading: false,
+            });
+        } catch {
+            window.alert('Repositorio não encontrado !');
+            this.setState({ loading: false });
+        }
     };
 
     render() {
