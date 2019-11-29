@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Container, Form, SubmitButton, List } from './styled';
 import { FaGithubAlt, FaPlus, FaSpinner } from 'react-icons/fa';
 import api from '../../services/api';
@@ -77,6 +78,7 @@ class Home extends React.Component {
                         type="text"
                         value={this.state.newRepo}
                         onChange={this.handleInputChange}
+                        placeholder="Adicionar um novo repositorio... "
                     />
 
                     <SubmitButton type="submit" loading={this.state.loading}>
@@ -95,9 +97,13 @@ class Home extends React.Component {
                                 <img src={item.avatar} />
                                 {'  '} {item.name}
                             </>
-                            <a href={item.url}>
+                            <Link
+                                to={`/repository/${encodeURIComponent(
+                                    item.name
+                                )}`}
+                            >
                                 Descover this repository here!{' '}
-                            </a>
+                            </Link>
                         </li>
                     ))}
                 </List>
